@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Elmah.Io.Alerting.Alerting;
+using Elmah.Io.Alerting.Channels;
 using Elmah.Io.Alerting.Client;
 using Elmah.Io.Alerting.Models;
+using Elmah.Io.Alerting.Settings;
 using Elmah.Io.Client;
 using FluentScheduler;
 
-namespace Elmah.Io.Alerting.Channels
+namespace Elmah.Io.Alerting.Alerting
 {
     public class AlertPolicy : IAlertSetting
     {
@@ -32,31 +30,31 @@ namespace Elmah.Io.Alerting.Channels
             var instance = new AlertPolicy(new AlertRunner(client ?? new ElmahIoApiClient(), realertAfterMinutes)) { PolicyName = policyName };
             return instance;
         }
-        public IQueryFilter ForLogs(params string[] logs)
+        public IQuerySetting ForLogs(params string[] logs)
         {
             Logs = logs.ToList();
             return this;
         }
 
-        public IChannelFilter WithQuery(FilterQuery filterQuery)
+        public IFilterSetting WithQuery(FilterQuery filterQuery)
         {
             FilterQuery = filterQuery;
             return this;
         }
 
-        public IChannelFilter WithQuery(string query = "", DateTime? @from = null, DateTime? to = null)
+        public IFilterSetting WithQuery(string query = "", DateTime? @from = null, DateTime? to = null)
         {
             return WithQuery(new FilterQuery { Query = query, From = from, To = to });
         }
 
-        public IChannelFilter When(Func<List<Message>, bool> func)
+        public IChannelSetting When(Func<List<Message>, bool> func)
         {
             WhenFunc = func;
             return this;
         }
 
 
-        public IScheduleFilter ToChannels(params ChannelBase[] alertChannels)
+        public IScheduleSetting ToChannels(params ChannelBase[] alertChannels)
         {
             AlertChannels = alertChannels.ToList();
             return this;
@@ -82,36 +80,5 @@ namespace Elmah.Io.Alerting.Channels
             JobManager.AddJob(() => _alertRunner.Run(this), s => s.ToRunEvery(1).Days().At(hours, minutes));
         }
 
-    }
-
-    public interface ILogFilter
-    {
-        IScheduleFilter ForLogs(params string[] logs);
-    }
-
-    public interface IChannelFilter
-    {
-        IScheduleFilter ToChannels(params ChannelBase[] alertChannel);
-        IChannelFilter When(Func<List<Message>, bool> func);
-    }
-
-
-    public interface IQueryFilter
-    {
-        IChannelFilter WithQuery(FilterQuery query);
-        IChannelFilter WithQuery(string query = "", DateTime? from = null, DateTime? to = null);
-        IChannelFilter When(Func<List<Message>, bool> func);
-    }
-
-    public interface IScheduleFilter
-    {
-        void WithIntervalHours(int hours);
-        void WithIntervalMinutes(int minutes);
-        void WithIntervalSeconds(int s);
-        void RunDailyAt(int hours, int minutes);
-    }
-
-    internal interface IChannelBuilder
-    {
     }
 }

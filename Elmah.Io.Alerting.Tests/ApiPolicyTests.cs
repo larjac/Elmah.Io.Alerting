@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Elmah.Io.Alerting.Alerting;
 using Elmah.Io.Alerting.Channels;
 using Elmah.Io.Alerting.Channels.Slack;
 using Elmah.Io.Alerting.Client;

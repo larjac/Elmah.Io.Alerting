@@ -59,11 +59,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alerting\AlertRunner.cs" />
-    <Compile Include="Channels\AlertPolicy.cs" />
+    <Compile Include="Alerting\AlertPolicy.cs" />
+    <Compile Include="Settings\IChannelSetting.cs" />
+    <Compile Include="Settings\IFilterSetting.cs" />
+    <Compile Include="Settings\ILogSetting.cs" />
+    <Compile Include="Settings\IQuerySetting.cs" />
+    <Compile Include="Settings\IScheduleSetting.cs" />
     <Compile Include="Channels\ChannelBase.cs" />
     <Compile Include="Channels\ConsoleChannel.cs" />
     <Compile Include="Channels\DailyDigestSmtpChannel.cs" />
-    <Compile Include="Channels\IAlertSetting.cs" />
+    <Compile Include="Settings\IAlertSetting.cs" />
     <Compile Include="Channels\Slack\SlackChannel.cs" />
     <Compile Include="Channels\Slack\SlackClient.cs" />
     <Compile Include="Channels\GmailSmtpChannel.cs" />
