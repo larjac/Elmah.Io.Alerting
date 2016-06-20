@@ -20,6 +20,7 @@ namespace Elmah.Io.Alerting.Alerting
         public Func<List<Message>, bool> WhenFunc { get; set; }
         public string PolicyName { get; set; }
         private readonly AlertRunner _alertRunner;
+        private int? _timeUnit;
         private AlertPolicy(AlertRunner alertRunner)
         {
             _alertRunner = alertRunner;
@@ -53,6 +54,26 @@ namespace Elmah.Io.Alerting.Alerting
             return this;
         }
 
+        public ITimeUnitSetting InPast(int timeUnit)
+        {
+            _timeUnit = timeUnit;
+            return this;
+        }
+
+        public IFilterSetting Seconds()
+        {
+            WhenFunc = p => p.Where((DateTime.UtcNow - p.Min(dt => dt.DateTime)).TotalMinutes < 15);
+        }
+
+        public IFilterSetting Minutes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IFilterSetting Hours()
+        {
+            throw new NotImplementedException();
+        }
 
         public IScheduleSetting ToChannels(params ChannelBase[] alertChannels)
         {

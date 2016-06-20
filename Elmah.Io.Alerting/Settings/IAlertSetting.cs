@@ -6,7 +6,7 @@ using Elmah.Io.Client;
 
 namespace Elmah.Io.Alerting.Settings
 {
-    public interface IAlertSetting : IQuerySetting, IScheduleSetting, IChannelSetting, IFilterSetting
+    public interface IAlertSetting : IQuerySetting, IScheduleSetting, IChannelSetting, IFilterSettingHelper, ITimeUnitSetting
     {
         List<ChannelBase> AlertChannels { get; set; }
         List<string> Logs { get; set; }
