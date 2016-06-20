@@ -16,7 +16,7 @@ using NUnit.Framework;
 namespace Elmah.Io.Alerting.Tests
 {
     [TestFixture]
-    public class ApiPolicyTests
+    public class ChannelRuleBuilderTests
     {
 
         private static Mock<IApiClient> MockApi

@@ -8,16 +8,4 @@ namespace Elmah.Io.Alerting.Settings
     {
         IChannelSetting When(Func<List<Message>, bool> func);
     }
-
-    public interface IFilterSettingHelper : IFilterSetting
-    {
-        ITimeUnitSetting InPast(int timeUnit);
-    }
-
-    public interface ITimeUnitSetting
-    {
-        IFilterSetting Seconds();
-        IFilterSetting Minutes();
-        IFilterSetting Hours();
-    }
 }
