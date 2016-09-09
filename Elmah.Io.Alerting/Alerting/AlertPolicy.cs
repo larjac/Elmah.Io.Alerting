@@ -42,9 +42,9 @@ namespace Elmah.Io.Alerting.Alerting
             return this;
         }
 
-        public IFilterSetting WithQuery(string query = "", DateTime? @from = null, DateTime? to = null)
+        public IFilterSetting WithQuery(string query = "", Func<DateTime> @from = null, Func<DateTime> to = null)
         {
-            return WithQuery(new FilterQuery { Query = query, From = from, To = to });
+            return WithQuery(new FilterQuery { Query = query, From = @from?.Invoke(), To = to?.Invoke() });
         }
 
         public IChannelSetting When(Func<List<Message>, bool> func)

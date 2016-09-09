@@ -8,7 +8,7 @@ namespace Elmah.Io.Alerting.Settings
     public interface IQuerySetting : IFilterSetting
     {
         IFilterSetting WithQuery(FilterQuery query);
-        IFilterSetting WithQuery(string query = "", DateTime? from = null, DateTime? to = null);
+        IFilterSetting WithQuery(string query = "", Func<DateTime> from = null, Func<DateTime> to = null);
         
     }
 }
